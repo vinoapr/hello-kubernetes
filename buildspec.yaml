@@ -1,0 +1,6 @@
+version: 0.2
+phases:
+  build:
+    commands:
+      - docker build -t 590183700244.dkr.ecr.ap-southeast-1.amazonaws.com/fastapi-app:latest .
+      - docker push 590183700244.dkr.ecr.ap-southeast-1.amazonaws.com/fastapi-app:latest
