@@ -1,0 +1,17 @@
+version: 0.0
+os: linux
+files:
+  - source: deployment.yaml
+    destination: /root/deployment.yaml
+  - source: service.yaml
+    destination: /root/service.yaml
+hooks:
+  AfterInstall:
+    - location: scripts/validate_app.sh
+      timeout: 300
+      runas: root
+  ApplicationStart:
+    - location: scripts/start_app.sh
+      timeout: 300
+      runas: root
+
