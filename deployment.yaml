@@ -2,8 +2,9 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: fastapi-app
+  namespace: default  # Change this if needed
 spec:
-  replicas: 2
+  replicas: 2  # Number of pods
   selector:
     matchLabels:
       app: fastapi
@@ -13,8 +14,19 @@ spec:
         app: fastapi
     spec:
       containers:
-      - name: fastapi
-        image: 590183700244.dkr.ecr.ap-southeast-1.amazonaws.com/fastapi-app:10
-        ports:
-        - containerPort: 8000
-
+        - name: fastapi
+          image: 590183700244.dkr.ecr.ap-southeast-1.amazonaws.com/fastapi-app:3  # Change this to your correct ECR image
+          ports:
+            - containerPort: 8000
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8000
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8000
+            initialDelaySeconds: 10
+            periodSeconds: 20
